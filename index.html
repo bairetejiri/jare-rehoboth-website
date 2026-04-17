@@ -2,51 +2,75 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jare Rehoboth Nigeria Enterprise</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body{font-family:Arial,sans-serif;background:#f5f1e8;color:#222;margin:0;padding:0}
-    nav{background:#4a7c3f;color:white;padding:1rem 2rem;display:flex;justify-content:space-between}
-    nav a{color:white;text-decoration:none;margin-left:1rem}
-    .hero{background:#4a7c3f;color:white;text-align:center;padding:2rem 1rem}
-    .hero h1{font-size:1.5rem}
-    .price-display{color:#ff9900;font-size:2rem;font-weight:bold;margin:1rem 0}
-    section{padding:1.5rem 1rem;max-width:1000px;margin:auto}
-    footer{background:#333;color:#ccc;padding:1rem;text-align:center}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f7f4ee;
+      color: #222;
+    }
+    nav {
+      background: #2f6b2f;
+      color: white;
+      padding: 15px 20px;
+      font-weight: bold;
+    }
+    .hero {
+      background: #3d7c3d;
+      color: white;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+    h2 {
+      color: #2f6b2f;
+    }
+    .price-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-top: 20px;
+    }
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      color: #d97706;
+    }
+    footer {
+      background: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
-  <nav>
-    <div>Jare Rehoboth</div>
-    <div>
-      <a href="#about">About</a>
-      <a href="#palm-oil">Palm Oil</a>
-      <a href="#contact">Contact</a>
+  <nav>Jare Rehoboth Nigeria Enterprise</nav>
+
+  <div class="hero">
+    <h1>Trusted Palm Oil Depot & Agro Trading Partner</h1>
+    <p>Okitipupa, Ondo State, Nigeria</p>
+  </div>
+
+  <section>
+    <h2>Current Palm Oil Price</h2>
+    <div class="price-box">
+      <p class="price" id="oilPrice">Loading price...</p>
+      <p>Storage fee per drum: <span id="storageFee">Loading...</span></p>
     </div>
-  </nav>
-
-  <section class="hero">
-    <h1>Jare Rehoboth Nigeria Enterprise</h1>
-    <p>Your trusted palm oil depot in Okitipupa, Ondo State</p>
   </section>
 
-  <section id="about">
+  <section>
     <h2>About Us</h2>
-    <p id="about-text">Loading...</p>
-  </section>
-
-  <section id="palm-oil">
-    <h2>Palm Oil Services</h2>
-    <p><strong>Current price:</strong> <span id="oil-price">Loading...</span> per drum</p>
-    <p><strong>Storage fee:</strong> <span id="storage-fee">Loading...</span>/drum</p>
-    <p>Example returns: 2024: Bought ₦220k–250k → Sold ₦440k–460k</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact Us</h2>
-    <p>📍 Okitipupa, Ondo State</p>
-    <p>📞 [+2348060031715]</p>
-    <p>💬 WhatsApp: <a href="https://wa.me/2348112259466">Chat Now</a></p>
+    <p id="aboutText">Loading...</p>
   </section>
 
   <footer>
@@ -54,18 +78,23 @@
   </footer>
 
   <script>
-    fetch('data.json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('oil-price').textContent = data.oil_price;
-        document.getElementById('storage-fee').textContent = '₦' + data.storage_fee.toLocaleString();
-        document.getElementById('about-text').textContent = data.about;
+    fetch('./data.json')
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('data.json not found');
+        }
+        return response.json();
       })
-      .catch(err => {
-        console.error('Could not load data:', err);
-        document.getElementById('oil-price').textContent = '₦320,000';
-        document.getElementById('storage-fee').textContent = '₦5,000';
-        document.getElementById('about-text').textContent = 'Jare Rehoboth Nigeria Enterprise — Buy, Store & Sell Crude Palm Oil';
+      .then(function(data) {
+        document.getElementById('oilPrice').textContent = data.oil_price;
+        document.getElementById('storageFee').textContent = '₦' + Number(data.storage_fee).toLocaleString();
+        document.getElementById('aboutText').textContent = data.about;
+      })
+      .catch(function(error) {
+        document.getElementById('oilPrice').textContent = '₦320,000';
+        document.getElementById('storageFee').textContent = '₦5,000';
+        document.getElementById('aboutText').textContent = 'Jare Rehoboth Nigeria Enterprise — Buy, Store and Sell Crude Palm Oil.';
+        console.log('Error loading data:', error);
       });
   </script>
 </body>
