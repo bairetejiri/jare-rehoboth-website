@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <title>Jare Rehoboth Nigeria Enterprise</title>
-  <meta name="Mr and Mrs James and Franka Erekata" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body{font-family:Arial,sans-serif;line-height:1.6;margin:0;padding:0;background:#f9f9f9;color:#333}
-    nav{background:#2e7d32;color:white;padding:1rem;display:flex;justify-content:space-between}
+    body{font-family:Arial,sans-serif;background:#f5f1e8;color:#222;margin:0;padding:0}
+    nav{background:#4a7c3f;color:white;padding:1rem 2rem;display:flex;justify-content:space-between}
     nav a{color:white;text-decoration:none;margin-left:1rem}
-    .hero{background:#2e7d32;color:white;padding:3rem 1rem;text-align:center}
-    .hero h1{font-size:2rem}
-    .btn{background:#ff9800;color:white;padding:0.7rem 1.5rem;border:none;border-radius:5px;text-decoration:none}
-    section{padding:2rem 1rem;max-width:1000px;margin:auto}
-    h2{color:#2e7d32}
+    .hero{background:#4a7c3f;color:white;text-align:center;padding:2rem 1rem}
+    .hero h1{font-size:1.5rem}
+    .price-display{color:#ff9900;font-size:2rem;font-weight:bold;margin:1rem 0}
+    section{padding:1.5rem 1rem;max-width:1000px;margin:auto}
     footer{background:#333;color:#ccc;padding:1rem;text-align:center}
   </style>
 </head>
@@ -29,18 +28,17 @@
   <section class="hero">
     <h1>Jare Rehoboth Nigeria Enterprise</h1>
     <p>Your trusted palm oil depot in Okitipupa, Ondo State</p>
-    <a href="#contact" class="btn">Get a Quote</a>
   </section>
 
   <section id="about">
     <h2>About Us</h2>
-    <p>Founded in 2008 by Mr. & Mrs. [James and Franka Erekata], we are a family business specializing in crude palm oil (FFA ≤ 13%) and groundnuts. We buy, store, and sell in bulk.</p>
+    <p id="about-text">Loading...</p>
   </section>
 
   <section id="palm-oil">
     <h2>Palm Oil Services</h2>
-    <p><strong>Current price:</strong> ₦320,000 per drum</p>
-    <p><strong>Storage program:</strong> We store your oil and sell at peak season (July–Sept). Service fee: ₦5,000/drum.</p>
+    <p><strong>Current price:</strong> <span id="oil-price">Loading...</span> per drum</p>
+    <p><strong>Storage fee:</strong> <span id="storage-fee">Loading...</span>/drum</p>
     <p>Example returns: 2024: Bought ₦220k–250k → Sold ₦440k–460k</p>
   </section>
 
@@ -48,11 +46,27 @@
     <h2>Contact Us</h2>
     <p>📍 Okitipupa, Ondo State</p>
     <p>📞 [+2348060031715]</p>
-    <p>💬 WhatsApp: <a href="https://wa.me/2349039612569" class="btn">Chat Now</a></p>
+    <p>💬 WhatsApp: <a href="https://wa.me/2348112259466">Chat Now</a></p>
   </section>
 
   <footer>
     &copy; 2025 Jare Rehoboth Nigeria Enterprise
   </footer>
+
+  <script>
+    fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('oil-price').textContent = data.oil_price;
+        document.getElementById('storage-fee').textContent = '₦' + data.storage_fee.toLocaleString();
+        document.getElementById('about-text').textContent = data.about;
+      })
+      .catch(err => {
+        console.error('Could not load data:', err);
+        document.getElementById('oil-price').textContent = '₦320,000';
+        document.getElementById('storage-fee').textContent = '₦5,000';
+        document.getElementById('about-text').textContent = 'Jare Rehoboth Nigeria Enterprise — Buy, Store & Sell Crude Palm Oil';
+      });
+  </script>
 </body>
 </html>
